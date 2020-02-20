@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ControlDiabetes</string>
+    <string name="app_title">Control Diabetes</string>
+    <string name="title_activity_select_device">SelectDeviceActivity</string>
+</resources>

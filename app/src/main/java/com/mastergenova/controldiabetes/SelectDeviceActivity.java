@@ -20,6 +20,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Set;
 
+import me.aflak.bluetooth.Bluetooth;
+import me.aflak.bluetooth.interfaces.BluetoothCallback;
+import me.aflak.bluetooth.interfaces.DiscoveryCallback;
+
 public class SelectDeviceActivity extends AppCompatActivity {
 
     /**
@@ -42,13 +46,18 @@ public class SelectDeviceActivity extends AppCompatActivity {
      */
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
 
+    private Bluetooth bluetooth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_device);
 
+        bluetooth = new Bluetooth(this);
+        bluetooth.setBluetoothCallback(bluetoothCallback);
+
         // Set result CANCELED in case the user backs out
-        setResult(Activity.RESULT_CANCELED);
+        /*setResult(Activity.RESULT_CANCELED);
 
         // Initialize the button to perform device discovery
         Button scanButton = (Button) findViewById(R.id.button_scan);
@@ -98,7 +107,97 @@ public class SelectDeviceActivity extends AppCompatActivity {
         } else {
             String noDevices = getResources().getText(R.string.none_paired).toString();
             pairedDevicesArrayAdapter.add(noDevices);
+        }*/
+
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        bluetooth.onStart();
+        if(bluetooth.isEnabled()){
+            scanDevices();
+        }else{
+            bluetooth.showEnableDialog(SelectDeviceActivity.this);
         }
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        bluetooth.onStop();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        bluetooth.onActivityResult(requestCode, resultCode);
+    }
+
+    private BluetoothCallback bluetoothCallback = new BluetoothCallback() {
+        @Override
+        public void onBluetoothTurningOn() {
+
+        }
+
+        @Override
+        public void onBluetoothOn() {
+            System.out.println("Bluetooth On");
+            scanDevices();
+        }
+
+        @Override
+        public void onBluetoothTurningOff() {
+
+        }
+
+        @Override
+        public void onBluetoothOff() {
+
+        }
+
+        @Override
+        public void onUserDeniedActivation() {
+
+        }
+    };
+
+    private void scanDevices(){
+        bluetooth.setDiscoveryCallback(new DiscoveryCallback() {
+            @Override
+            public void onDiscoveryStarted() {
+
+            }
+
+            @Override
+            public void onDiscoveryFinished() {
+
+            }
+
+            @Override
+            public void onDeviceFound(BluetoothDevice device) {
+                System.out.println("DeviceFound");
+                System.out.println(device.getAddress());
+            }
+
+            @Override
+            public void onDevicePaired(BluetoothDevice device) {
+
+            }
+
+            @Override
+            public void onDeviceUnpaired(BluetoothDevice device) {
+
+            }
+
+            @Override
+            public void onError(int errorCode) {
+
+            }
+        });
+
+        bluetooth.startScanning();
+
 
     }
 
@@ -106,7 +205,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
      * Start device discover with the BluetoothAdapter
      */
     private void doDiscovery() {
-        Log.d(TAG, "doDiscovery()");
+        /*Log.d(TAG, "doDiscovery()");
 
         // Indicate scanning in the title
         setProgressBarIndeterminateVisibility(true);
@@ -121,13 +220,13 @@ public class SelectDeviceActivity extends AppCompatActivity {
         }
 
         // Request discover from BluetoothAdapter
-        mBtAdapter.startDiscovery();
+        mBtAdapter.startDiscovery();*/
     }
 
     /**
      * The on-click listener for all devices in the ListViews
      */
-    private AdapterView.OnItemClickListener mDeviceClickListener
+    /*private AdapterView.OnItemClickListener mDeviceClickListener
             = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
             // Cancel discovery because it's costly and we're about to connect
@@ -145,13 +244,13 @@ public class SelectDeviceActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, intent);
             finish();
         }
-    };
+    };*/
 
     /**
      * The BroadcastReceiver that listens for discovered devices and changes the title when
      * discovery is finished
      */
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    /*private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -174,7 +273,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
                 }
             }
         }
-    };
+    };*/
 
 
 

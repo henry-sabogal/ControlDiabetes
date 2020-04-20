@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Set;
 
@@ -47,6 +48,10 @@ public class SelectDeviceActivity extends AppCompatActivity {
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
 
     private Bluetooth bluetooth;
+
+
+    private lateinit var recyclerView: RecyclerView
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

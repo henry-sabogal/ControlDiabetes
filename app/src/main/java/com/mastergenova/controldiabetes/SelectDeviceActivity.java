@@ -17,8 +17,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import me.aflak.bluetooth.Bluetooth;
@@ -50,8 +52,12 @@ public class SelectDeviceActivity extends AppCompatActivity {
     private Bluetooth bluetooth;
 
 
-    private lateinit var recyclerView: RecyclerView
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
+
+    private ArrayList<String> devicesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +66,16 @@ public class SelectDeviceActivity extends AppCompatActivity {
 
         bluetooth = new Bluetooth(this);
         bluetooth.setBluetoothCallback(bluetoothCallback);
+
+        recyclerView = (RecyclerView) findViewById(R.id.devices_recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        devicesList = new ArrayList<String>();
+        mAdapter = new DevicesAdapter(devicesList);
+        recyclerView.setAdapter(mAdapter);
 
         // Set result CANCELED in case the user backs out
         /*setResult(Activity.RESULT_CANCELED);
@@ -183,6 +199,9 @@ public class SelectDeviceActivity extends AppCompatActivity {
             public void onDeviceFound(BluetoothDevice device) {
                 System.out.println("DeviceFound");
                 System.out.println(device.getAddress());
+                devicesList.add(device.getName());
+                //mAdapter.notifyDataSetChanged();
+                mAdapter.notifyItemInserted(devicesList.size()-1);
             }
 
             @Override

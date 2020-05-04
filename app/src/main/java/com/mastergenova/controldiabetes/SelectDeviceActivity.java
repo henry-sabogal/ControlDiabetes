@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,44 +30,18 @@ import me.aflak.bluetooth.interfaces.DiscoveryCallback;
 
 public class SelectDeviceActivity extends AppCompatActivity {
 
-    /**
-     * Tag for Log
-     */
-    private static final String TAG = "DeviceListActivity";
-
-    /**
-     * Return Intent extra
-     */
-    public static String EXTRA_DEVICE_ADDRESS = "device_address";
-
-    /**
-     * Member fields
-     */
-    private BluetoothAdapter mBtAdapter;
-
-    /**
-     * Newly discovered devices
-     */
-    private ArrayAdapter<String> mNewDevicesArrayAdapter;
-
-    private Bluetooth bluetooth;
-
-
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
 
-    private ArrayList<BluetoothDevice> devicesList;
-    private ArrayList<String> addressList;
+    BluetoothAdapter bluetoothAdapter;
+    Set<BluetoothDevice> pairedDevices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_device);
-
-        bluetooth = new Bluetooth(this);
-        bluetooth.setBluetoothCallback(bluetoothCallback);
 
         recyclerView = (RecyclerView) findViewById(R.id.devices_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -74,29 +49,32 @@ public class SelectDeviceActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        devicesList = new ArrayList<BluetoothDevice>();
-        mAdapter = new DevicesAdapter(devicesList, new OnItemClickListener() {
-            @Override
-            public void onItemClick(BluetoothDevice item) {
-                System.out.println("Click on " + item.getName());
-                System.out.println("Click on device with address " +  item.getAddress());
-            }
-        });
-        recyclerView.setAdapter(mAdapter);
-
-        addressList = new ArrayList<String>();
-
         Button btnScan = (Button)findViewById(R.id.button_scan);
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(bluetooth.isEnabled()){
-                    scanDevices();
+                if(!bluetoothAdapter.isEnabled()){
+                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableBtIntent, 1);
                 }else{
-                    bluetooth.showEnableDialog(SelectDeviceActivity.this);
+                    System.out.println("Bluetooht enable");
+                    checkPairedDevices();
                 }
             }
         });
+
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(bluetoothAdapter == null){
+            Toast.makeText(this,"Device doesn't support bluetooth", Toast.LENGTH_LONG).show();
+        }else{
+            if(!bluetoothAdapter.isEnabled()){
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, 1);
+            }else{
+                System.out.println("Bluetooht enable");
+                checkPairedDevices();
+            }
+        }
 
         // Set result CANCELED in case the user backs out
         /*setResult(Activity.RESULT_CANCELED);
@@ -156,27 +134,47 @@ public class SelectDeviceActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        bluetooth.onStart();
-        if(bluetooth.isEnabled()){
-            //scanDevices();
-        }else{
-            bluetooth.showEnableDialog(SelectDeviceActivity.this);
-        }
-    }
+            }
 
     @Override
     protected void onStop(){
         super.onStop();
-        bluetooth.onStop();
     }
 
     @Override
     protected void onActivityResult(int requestCode,int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        bluetooth.onActivityResult(requestCode, resultCode);
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                System.out.println("Listo");
+            }else if(resultCode == Activity.RESULT_CANCELED){
+                Toast.makeText(this, "Please enable bluetooht to use this application", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
-    private BluetoothCallback bluetoothCallback = new BluetoothCallback() {
+    private void checkPairedDevices(){
+        pairedDevices = bluetoothAdapter.getBondedDevices();
+
+        if(pairedDevices.size() > 0){
+            for(BluetoothDevice device: pairedDevices){
+                String deviceName = device.getName();
+                String deviceHardwareAddress = device.getAddress();
+                System.out.println("Paired Device Name: " + deviceName);
+                System.out.println("Paired Device Address: " + deviceHardwareAddress);
+            }
+            mAdapter = new DevicesAdapter(pairedDevices, new OnItemClickListener() {
+                @Override
+                public void onItemClick(BluetoothDevice item) {
+                    System.out.println("Click on " + item.getName());
+                    System.out.println("Click on device with address " +  item.getAddress());
+                }
+            });
+            recyclerView.setAdapter(mAdapter);
+        }
+    }
+
+    /*private BluetoothCallback bluetoothCallback = new BluetoothCallback() {
         @Override
         public void onBluetoothTurningOn() {
 
@@ -247,11 +245,11 @@ public class SelectDeviceActivity extends AppCompatActivity {
 
 
     }
-
+    */
     /**
      * Start device discover with the BluetoothAdapter
-     */
-    private void doDiscovery() {
+    /*
+    /*private void doDiscovery() {
         /*Log.d(TAG, "doDiscovery()");
 
         // Indicate scanning in the title
@@ -268,7 +266,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
 
         // Request discover from BluetoothAdapter
         mBtAdapter.startDiscovery();*/
-    }
+    //}
 
     /**
      * The on-click listener for all devices in the ListViews

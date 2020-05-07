@@ -30,6 +30,8 @@ import me.aflak.bluetooth.interfaces.DiscoveryCallback;
 
 public class SelectDeviceActivity extends AppCompatActivity {
 
+    public static String EXTRA_DEVICE_ADDRESS = "device_address";
+
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -168,6 +170,10 @@ public class SelectDeviceActivity extends AppCompatActivity {
                 public void onItemClick(BluetoothDevice item) {
                     System.out.println("Click on " + item.getName());
                     System.out.println("Click on device with address " +  item.getAddress());
+                    Intent intent = new Intent(SelectDeviceActivity.this, ConnectActivity.class);
+                    intent.putExtra(EXTRA_DEVICE_ADDRESS, item.getAddress());
+                    setResult(Activity.RESULT_OK, intent);
+                    startActivity(intent);
                 }
             });
             recyclerView.setAdapter(mAdapter);

@@ -1,6 +1,7 @@
 package com.mastergenova.controldiabetes;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -45,7 +46,15 @@ public class ConnectActivity extends AppCompatActivity {
 
         if(mBluetoothAdapter == null){
             Toast.makeText(this,"Device doesn't support bluetooth", Toast.LENGTH_LONG).show();
+        }else{
+            Intent intent = getIntent();
+            mConnectedDeviceName = intent.getStringExtra(SelectDeviceActivity.EXTRA_DEVICE_ADDRESS);
+
+            setupConnection();
+            connectDevice(intent, true);
         }
+
+
 
     }
 
@@ -86,8 +95,72 @@ public class ConnectActivity extends AppCompatActivity {
     private final Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg){
-            
+            switch (msg.what){
+                case Constants.MESSAGE_STATE_CHANGE:
+                    System.out.println("Message state change");
+                    switch (msg.arg1){
+                        case BluetoothService.STATE_CONNECTED:
+                            System.out.println("Bluetooth state connected");
+                            break;
+                        case BluetoothService.STATE_CONNECTING:
+                            System.out.println("Bluetooth state connecting");
+                            break;
+                        case BluetoothService.STATE_LISTEN:
+                            System.out.println("Bluetooth state listen");
+                            break;
+                        case BluetoothService.STATE_NONE:
+                            System.out.println("Bluetooth state none");
+                            break;
+                    }
+                    break;
+                case Constants.MESSAGE_WRITE:
+                    System.out.println("Write a message");
+                    break;
+                case Constants.MESSAGE_READ:
+                    byte[] readBuf = (byte[]) msg.obj;
+                    String readMessage = new String(readBuf, 0, msg.arg1);
+                    break;
+                case Constants.MESSAGE_DEVICE_NAME:
+                    mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
+                    System.out.println("Connected to " + mConnectedDeviceName);
+                    break;
+                case Constants.MESSAGE_TOAST:
+                    System.out.println("Message Toast " + msg.getData().getString(Constants.DEVICE_NAME));
+                    break;
+            }
         }
     };
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("onActivityResult " + requestCode);
+        switch (requestCode){
+            case REQUEST_CONNECT_DEVICE_SECURE:
+                if(resultCode == this.RESULT_OK){
+                    connectDevice(data, true);
+                }
+                break;
+            case REQUEST_CONNECT_DEVICE_INSECURE:
+                if(resultCode == this.RESULT_OK){
+                    connectDevice(data, false);
+                }
+                break;
+            case REQUEST_ENABLE_BT:
+                if(resultCode == this.RESULT_OK){
+                    setupConnection();
+                }else {
+                    System.out.println("BT not enabled");
+                    Toast.makeText(this, "BT not enabled", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
+
+    private void connectDevice(Intent data, boolean secure){
+        String address = data.getExtras().getString(SelectDeviceActivity.EXTRA_DEVICE_ADDRESS);
+        System.out.println("Address " + address);
+        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+        mBluetoothService.connect(device, secure);
+    }
 }

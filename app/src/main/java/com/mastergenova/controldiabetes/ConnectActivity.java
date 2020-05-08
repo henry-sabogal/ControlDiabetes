@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ConnectActivity extends AppCompatActivity {
@@ -35,12 +36,16 @@ public class ConnectActivity extends AppCompatActivity {
 
     private BluetoothService mBluetoothService = null;
 
+    TextView txtTest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        txtTest = (TextView)findViewById(R.id.txtTest);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -119,6 +124,7 @@ public class ConnectActivity extends AppCompatActivity {
                 case Constants.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
                     String readMessage = new String(readBuf, 0, msg.arg1);
+                    txtTest.setText(readMessage);
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);

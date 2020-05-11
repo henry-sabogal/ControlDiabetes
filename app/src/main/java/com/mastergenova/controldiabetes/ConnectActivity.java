@@ -36,7 +36,8 @@ public class ConnectActivity extends AppCompatActivity {
 
     private BluetoothService mBluetoothService = null;
 
-    TextView txtTest;
+    TextView mHeartRateTextView;
+    TextView mStepCounterTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,8 @@ public class ConnectActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        txtTest = (TextView)findViewById(R.id.txtTest);
+        mHeartRateTextView = (TextView)findViewById(R.id.txtHeartRate);
+        mStepCounterTextView = (TextView)findViewById(R.id.txtStepCounter);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -124,7 +126,17 @@ public class ConnectActivity extends AppCompatActivity {
                 case Constants.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
                     String readMessage = new String(readBuf, 0, msg.arg1);
-                    txtTest.setText(readMessage);
+                    System.out.println("Message " + readMessage);
+                    String[] separated_text = readMessage.split(":");
+                    if(separated_text[0].equals("HR")){
+                        if(separated_text.length == 2){
+                            mHeartRateTextView.setText(separated_text[1]);
+                        }
+                    }else if(separated_text[0].equals("SC")){
+                        if(separated_text.length == 2){
+                            mStepCounterTextView.setText(separated_text[1]);
+                        }
+                    }
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);

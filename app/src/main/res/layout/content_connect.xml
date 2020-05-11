@@ -8,12 +8,56 @@
     tools:context=".ConnectActivity"
     tools:showIn="@layout/activity_connect">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Test"
-        android:textSize="35dp"
-        android:id="@+id/txtTest"
-        />
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="35dp"
+            android:text="@string/app_title"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_heart_rate"
+            android:layout_marginTop="25dp"
+            android:textStyle="italic"
+            android:textSize="25dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/default_value"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:id="@+id/txtHeartRate"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_step_counter"
+            android:layout_marginTop="25dp"
+            android:textStyle="italic"
+            android:textSize="25dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/default_value"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:id="@+id/txtStepCounter"
+            />
+
+
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

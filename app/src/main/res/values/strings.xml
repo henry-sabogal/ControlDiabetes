@@ -24,6 +24,7 @@
     <string name="title_heart_rate">Heart Rate</string>
     <string name="title_step_counter">Step Counter</string>
     <string name="default_value">0</string>
+    <string name="title_accelerometer">Accelerometer</string>
 
     <string name="intro_message">
         <![CDATA[

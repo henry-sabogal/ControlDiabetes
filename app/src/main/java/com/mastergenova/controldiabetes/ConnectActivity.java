@@ -38,6 +38,7 @@ public class ConnectActivity extends AppCompatActivity {
 
     TextView mHeartRateTextView;
     TextView mStepCounterTextView;
+    TextView mAccelerometerTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class ConnectActivity extends AppCompatActivity {
 
         mHeartRateTextView = (TextView)findViewById(R.id.txtHeartRate);
         mStepCounterTextView = (TextView)findViewById(R.id.txtStepCounter);
+        mAccelerometerTextView = (TextView)findViewById(R.id.txtAccelerometer);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -127,8 +129,9 @@ public class ConnectActivity extends AppCompatActivity {
                     byte[] readBuf = (byte[]) msg.obj;
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     System.out.println("Message " + readMessage);
+
                     String[] separated_text = readMessage.split(":");
-                    if(separated_text[0].equals("HR")){
+                    /*if(separated_text[0].equals("HR")){
                         if(separated_text.length == 2){
                             mHeartRateTextView.setText(separated_text[1]);
                         }
@@ -136,6 +139,15 @@ public class ConnectActivity extends AppCompatActivity {
                         if(separated_text.length == 2){
                             mStepCounterTextView.setText(separated_text[1]);
                         }
+                    }else if(separated_text[0].equals("AC")){
+                        if(separated_text.length == 2){
+                            mAccelerometerTextView.setText(separated_text[1]);
+                        }
+                    }*/
+                    if(separated_text.length == 3){
+                        mHeartRateTextView.setText(separated_text[0]);
+                        mStepCounterTextView.setText(separated_text[1]);
+                        mAccelerometerTextView.setText(separated_text[2]);
                     }
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:

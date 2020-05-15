@@ -9,71 +9,151 @@
     tools:showIn="@layout/activity_connect">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="35dp"
-            android:text="@string/app_title"
+            android:textSize="25dp"
+            android:text="@string/watch_data"
+            android:textStyle="bold"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/title_heart_rate"
-            android:layout_marginTop="25dp"
-            android:textStyle="italic"
-            android:textSize="25dp" />
+            android:textSize="15dp"
+             />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/default_value"
-            android:textSize="20dp"
-            android:textStyle="bold"
             android:id="@+id/txtHeartRate"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/default_value"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/title_step_counter"
-            android:layout_marginTop="25dp"
-            android:textStyle="italic"
-            android:textSize="25dp" />
+            android:textSize="15dp"
+             />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/default_value"
-            android:textSize="20dp"
-            android:textStyle="bold"
             android:id="@+id/txtStepCounter"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/default_value"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/title_accelerometer"
-            android:layout_marginTop="25dp"
-            android:textStyle="italic"
-            android:textSize="25dp" />
+            android:textSize="15dp"
+             />
 
         <TextView
+            android:id="@+id/txtAccelerometer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/default_value"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:id="@+id/txtAccelerometer"
-            />
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:text="@string/personal_data"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/id_label"
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name_label"
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/age_label"
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/send_button_label"
+                    android:layout_marginTop="15dp"
+                    />
+
+            </LinearLayout>
+
+        </ScrollView>
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 
 

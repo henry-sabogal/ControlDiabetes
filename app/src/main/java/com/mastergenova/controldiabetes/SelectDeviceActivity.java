@@ -3,30 +3,18 @@ package com.mastergenova.controldiabetes;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.Set;
-
-import me.aflak.bluetooth.Bluetooth;
-import me.aflak.bluetooth.interfaces.BluetoothCallback;
-import me.aflak.bluetooth.interfaces.DiscoveryCallback;
 
 public class SelectDeviceActivity extends AppCompatActivity {
 
@@ -44,6 +32,8 @@ public class SelectDeviceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_device);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.devices_recycler_view);
         recyclerView.setHasFixedSize(true);

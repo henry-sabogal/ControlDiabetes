@@ -5,15 +5,11 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +36,8 @@ public class ConnectActivity extends AppCompatActivity {
     TextView mStepCounterTextView;
     TextView mAccelerometerTextView;
 
+    TextView mStatusTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +49,12 @@ public class ConnectActivity extends AppCompatActivity {
         mStepCounterTextView = (TextView)findViewById(R.id.txtStepCounter);
         mAccelerometerTextView = (TextView)findViewById(R.id.txtAccelerometer);
 
+        mStatusTextView = (TextView)findViewById(R.id.txtStatus);
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if(mBluetoothAdapter == null){
-            Toast.makeText(this,"Device doesn't support bluetooth", Toast.LENGTH_LONG).show();
+            mStatusTextView.setText("Device doesn't support bluetooth");
         }else{
             Intent intent = getIntent();
             mConnectedDeviceName = intent.getStringExtra(SelectDeviceActivity.EXTRA_DEVICE_ADDRESS);
@@ -110,15 +110,19 @@ public class ConnectActivity extends AppCompatActivity {
                     switch (msg.arg1){
                         case BluetoothService.STATE_CONNECTED:
                             System.out.println("Bluetooth state connected");
+                            mStatusTextView.setText("Bluetooth state connected");
                             break;
                         case BluetoothService.STATE_CONNECTING:
                             System.out.println("Bluetooth state connecting");
+                            mStatusTextView.setText("Bluetooth state connecting");
                             break;
                         case BluetoothService.STATE_LISTEN:
                             System.out.println("Bluetooth state listen");
+                            mStatusTextView.setText("Bluetooth state listen");
                             break;
                         case BluetoothService.STATE_NONE:
                             System.out.println("Bluetooth state none");
+                            mStatusTextView.setText("Bluetooth state none");
                             break;
                     }
                     break;
@@ -153,9 +157,11 @@ public class ConnectActivity extends AppCompatActivity {
                 case Constants.MESSAGE_DEVICE_NAME:
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
                     System.out.println("Connected to " + mConnectedDeviceName);
+                    mStatusTextView.setText("Connected to " + mConnectedDeviceName);
                     break;
                 case Constants.MESSAGE_TOAST:
                     System.out.println("Message Toast " + msg.getData().getString(Constants.DEVICE_NAME));
+                    mStatusTextView.setText("Message Toast " + msg.getData().getString(Constants.DEVICE_NAME));
                     break;
             }
         }
@@ -182,6 +188,7 @@ public class ConnectActivity extends AppCompatActivity {
                 }else {
                     System.out.println("BT not enabled");
                     Toast.makeText(this, "BT not enabled", Toast.LENGTH_SHORT).show();
+                    mStatusTextView.setText("BT not enabled");
                 }
         }
     }

@@ -25,6 +25,13 @@
     <string name="title_step_counter">Step Counter</string>
     <string name="default_value">0</string>
     <string name="title_accelerometer">Accelerometer</string>
+    
+    <string name="personal_data">Personal Data</string>
+    <string name="name_label">Name</string>
+    <string name="id_label">ID User</string>
+    <string name="age_label">Age</string>
+    <string name="send_button_label">Send</string>
+    <string name="watch_data">Watch Data</string>
 
     <string name="intro_message">
         <![CDATA[

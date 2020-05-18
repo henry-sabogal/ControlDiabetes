@@ -18,58 +18,116 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
+            android:textSize="18dp"
             android:text="@string/watch_data"
             android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
             />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/title_heart_rate"
-            android:textSize="15dp"
-             />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txtHeartRate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/default_value"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_favorite_black_36"
+                android:layout_gravity="center"
+                android:tint="@color/colorAccent"/>
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_heart_rate"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                android:textColor="@color/colorBlack"
+                android:layout_marginLeft="10dp"
+                />
+
+            <TextView
+                android:id="@+id/txtHeartRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_value"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textColor="@color/colorBlack"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/title_step_counter"
-            android:textSize="15dp"
-             />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txtStepCounter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/default_value"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_directions_walk_black_36"
+                android:layout_gravity="center"
+                android:tint="@color/colorAccent"/>
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_step_counter"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                android:textColor="@color/colorBlack"
+                android:layout_marginLeft="10dp"
+                />
+
+            <TextView
+                android:id="@+id/txtStepCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_value"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textColor="@color/colorBlack"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/title_accelerometer"
-            android:textSize="15dp"
-             />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txtAccelerometer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/default_value"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_accessibility_black_36"
+                android:layout_gravity="center"
+                android:tint="@color/colorAccent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_accelerometer"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                android:textColor="@color/colorBlack"
+                android:layout_marginLeft="10dp"
+                />
+
+            <TextView
+                android:id="@+id/txtAccelerometer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_value"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textColor="@color/colorBlack"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -87,57 +145,126 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="25dp"
+                    android:textSize="18dp"
                     android:text="@string/personal_data"
                     android:textStyle="bold"
+                    android:textColor="@color/colorPrimaryDark"
                     />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/id_label"
-                    android:textSize="15dp"
                     android:layout_marginTop="10dp"
-                    />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_account_box_black_36"
+                        android:layout_gravity="center"
+                        android:tint="@color/colorPrimaryDark"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/id_label"
+                        android:textSize="15dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                </LinearLayout>
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15dp" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/name_label"
-                    android:textSize="15dp"
                     android:layout_marginTop="10dp"
-                    />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_portrait_black_36"
+                        android:layout_gravity="center"
+                        android:tint="@color/colorPrimaryDark"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/name_label"
+                        android:textSize="15dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                </LinearLayout>
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15dp" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/age_label"
-                    android:textSize="15dp"
                     android:layout_marginTop="10dp"
-                    />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_perm_identity_black_36"
+                        android:layout_gravity="center"
+                        android:tint="@color/colorPrimaryDark"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/age_label"
+                        android:textSize="15dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                </LinearLayout>
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15dp" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/genre_label"
-                    android:textSize="15dp"
                     android:layout_marginTop="10dp"
-                    />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_wc_black_36"
+                        android:layout_gravity="center"
+                        android:tint="@color/colorPrimaryDark"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/genre_label"
+                        android:textSize="15dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                </LinearLayout>
 
                 <EditText
                     android:layout_width="match_parent"
@@ -149,6 +276,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/send_button_label"
                     android:layout_marginTop="15dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:textColor="@color/colorWhite"
                     />
 
             </LinearLayout>

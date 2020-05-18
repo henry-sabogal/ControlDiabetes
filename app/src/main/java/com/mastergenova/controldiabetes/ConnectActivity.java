@@ -43,6 +43,7 @@ public class ConnectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Diabetes Control");
         setSupportActionBar(toolbar);
 
         mHeartRateTextView = (TextView)findViewById(R.id.txtHeartRate);

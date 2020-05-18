@@ -25,7 +25,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:paddingTop="16dp"
         >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/listPairedDevices"
+            android:textSize="18dp"
+            android:padding="16dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -33,13 +43,16 @@
             android:id="@+id/devices_recycler_view"
             android:layout_weight="1"
             android:stackFromBottom="true"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:padding="16dp"/>
 
         <Button
             android:id="@+id/button_scan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/button_scan"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorWhite"
             />
     </LinearLayout>
 

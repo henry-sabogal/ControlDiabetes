@@ -33,6 +33,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_device);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Diabetes Control");
         setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.devices_recycler_view);

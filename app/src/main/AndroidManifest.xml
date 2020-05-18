@@ -25,7 +25,7 @@
         <activity
             android:name=".SelectDeviceActivity"
             android:label="@string/title_activity_select_device"
-            android:theme="@style/AppTheme.Launcher" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity" android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

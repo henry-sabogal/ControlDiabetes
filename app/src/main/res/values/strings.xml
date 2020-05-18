@@ -34,6 +34,8 @@
     <string name="watch_data">Watch Data</string>
     <string name="genre_label">Genre</string>
 
+    <string name="listPairedDevices">List Paired Devices</string>
+
     <string name="intro_message">
         <![CDATA[
 

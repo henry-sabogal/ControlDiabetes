@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Handler;
 import android.os.Message;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class ConnectActivity extends AppCompatActivity {
     TextView mAccelerometerTextView;
 
     TextView mStatusTextView;
+    ImageView mBluetoothImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +53,13 @@ public class ConnectActivity extends AppCompatActivity {
         mAccelerometerTextView = (TextView)findViewById(R.id.txtAccelerometer);
 
         mStatusTextView = (TextView)findViewById(R.id.txtStatus);
+        mBluetoothImageView = (ImageView)findViewById(R.id.imgBluetooth);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if(mBluetoothAdapter == null){
             mStatusTextView.setText("Device doesn't support bluetooth");
+            mBluetoothImageView.setImageResource(R.drawable.baseline_bluetooth_disabled_black_36);
         }else{
             Intent intent = getIntent();
             mConnectedDeviceName = intent.getStringExtra(SelectDeviceActivity.EXTRA_DEVICE_ADDRESS);
@@ -112,18 +116,22 @@ public class ConnectActivity extends AppCompatActivity {
                         case BluetoothService.STATE_CONNECTED:
                             System.out.println("Bluetooth state connected");
                             mStatusTextView.setText("Bluetooth state connected");
+                            mBluetoothImageView.setImageResource(R.drawable.baseline_bluetooth_connected_black_36);
                             break;
                         case BluetoothService.STATE_CONNECTING:
                             System.out.println("Bluetooth state connecting");
                             mStatusTextView.setText("Bluetooth state connecting");
+                            mBluetoothImageView.setImageResource(R.drawable.baseline_bluetooth_searching_black_36);
                             break;
                         case BluetoothService.STATE_LISTEN:
                             System.out.println("Bluetooth state listen");
                             mStatusTextView.setText("Bluetooth state listen");
+                            mBluetoothImageView.setImageResource(R.drawable.baseline_bluetooth_searching_black_36);
                             break;
                         case BluetoothService.STATE_NONE:
                             System.out.println("Bluetooth state none");
                             mStatusTextView.setText("Bluetooth state none");
+                            mBluetoothImageView.setImageResource(R.drawable.baseline_bluetooth_disabled_black_36);
                             break;
                     }
                     break;
@@ -159,10 +167,12 @@ public class ConnectActivity extends AppCompatActivity {
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
                     System.out.println("Connected to " + mConnectedDeviceName);
                     mStatusTextView.setText("Connected to " + mConnectedDeviceName);
+                    mBluetoothImageView.setImageResource(R.drawable.baseline_bluetooth_connected_black_36);
                     break;
                 case Constants.MESSAGE_TOAST:
                     System.out.println("Message Toast " + msg.getData().getString(Constants.DEVICE_NAME));
                     mStatusTextView.setText("Message Toast " + msg.getData().getString(Constants.DEVICE_NAME));
+                    mBluetoothImageView.setImageResource(R.drawable.baseline_bluetooth_connected_black_36);
                     break;
             }
         }
@@ -190,6 +200,7 @@ public class ConnectActivity extends AppCompatActivity {
                     System.out.println("BT not enabled");
                     Toast.makeText(this, "BT not enabled", Toast.LENGTH_SHORT).show();
                     mStatusTextView.setText("BT not enabled");
+                    mBluetoothImageView.setImageResource(R.drawable.baseline_bluetooth_disabled_black_36);
                 }
         }
     }

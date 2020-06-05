@@ -32,7 +32,7 @@
     <string name="age_label">Age</string>
     <string name="send_button_label">Send</string>
     <string name="watch_data">Watch Data</string>
-    <string name="genre_label">Genre</string>
+    <string name="genre_label">Gender</string>
 
     <string name="listPairedDevices">List Paired Devices</string>
 

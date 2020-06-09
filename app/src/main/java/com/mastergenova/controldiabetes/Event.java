@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class Event {
 
     @SerializedName("event")
-    private Event event;
+    private EventData event;
 
-    public Event getEvent() {
+    public EventData getEvent() {
         return event;
     }
 
-    public void setEvent(Event event) {
+    public void setEvent(EventData event) {
         this.event = event;
     }
 

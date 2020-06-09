@@ -6,6 +6,6 @@ import retrofit2.http.POST;
 
 public interface DataService {
 
-    @POST("link")
-    Call<Event> sendData(@Body Event event);
+    @POST("store_msg/")
+    Call<EventResponse> sendData(@Body Event event);
 }

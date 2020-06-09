@@ -10,9 +10,18 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConnectActivity extends AppCompatActivity {
 
@@ -40,6 +49,8 @@ public class ConnectActivity extends AppCompatActivity {
     TextView mStatusTextView;
     ImageView mBluetoothImageView;
 
+    Button mSendDataButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +66,8 @@ public class ConnectActivity extends AppCompatActivity {
         mStatusTextView = (TextView)findViewById(R.id.txtStatus);
         mBluetoothImageView = (ImageView)findViewById(R.id.imgBluetooth);
 
+        mSendDataButton = (Button)findViewById(R.id.btnSendData);
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if(mBluetoothAdapter == null){
@@ -68,7 +81,14 @@ public class ConnectActivity extends AppCompatActivity {
             connectDevice(intent, true);
         }
 
-
+        mSendDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSendDataButton.setText("Sending Data ...");
+                mSendDataButton.setEnabled(false);
+                sendData();
+            }
+        });
 
     }
 
@@ -211,5 +231,41 @@ public class ConnectActivity extends AppCompatActivity {
         System.out.println("Address " + address);
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         mBluetoothService.connect(device, secure);
+    }
+
+    private void sendData(){
+        Event event = new Event();
+        EventData eventData = new EventData();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDate = simpleDateFormat.format(new Date());
+
+        eventData.setEventType("TestSensor");
+        eventData.setValue(0.2);
+        eventData.setTimestamp(currentDate);
+        eventData.setMetadata("Un metadato");
+        event.setEvent(eventData);
+
+        DataService service = RetrofitClientInstance.getRetrofit().create(DataService.class);
+        Call<EventResponse> call = service.sendData(event);
+
+        call.enqueue(new Callback<EventResponse>() {
+            @Override
+            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+                System.out.println("Response call");
+                System.out.println(response.body().getMessage());
+                mSendDataButton.setText("Send");
+                mSendDataButton.setEnabled(true);
+                Toast.makeText(ConnectActivity.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<EventResponse> call, Throwable t) {
+                System.out.println("Ocurrio un error");
+                System.out.println(t.toString());
+                mSendDataButton.setText("Send");
+                mSendDataButton.setEnabled(true);
+            }
+        });
     }
 }

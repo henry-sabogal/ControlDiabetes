@@ -10,14 +10,21 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,6 +58,11 @@ public class ConnectActivity extends AppCompatActivity {
 
     Button mSendDataButton;
 
+    EditText mIdUserEditText;
+    EditText mNameEditText;
+    EditText mAgeEditText;
+    EditText mGenderEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +80,11 @@ public class ConnectActivity extends AppCompatActivity {
 
         mSendDataButton = (Button)findViewById(R.id.btnSendData);
 
+        mIdUserEditText = (EditText)findViewById(R.id.txtIdUser);
+        mNameEditText = (EditText)findViewById(R.id.txtName);
+        mAgeEditText = (EditText)findViewById(R.id.txtAge);
+        mGenderEditText = (EditText)findViewById(R.id.txtGender);
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if(mBluetoothAdapter == null){
@@ -84,9 +101,13 @@ public class ConnectActivity extends AppCompatActivity {
         mSendDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSendDataButton.setText("Sending Data ...");
-                mSendDataButton.setEnabled(false);
-                sendData();
+                if(isEmpty(mIdUserEditText) || isEmpty(mNameEditText) || isEmpty(mAgeEditText) || isEmpty(mGenderEditText)){
+                    Toast.makeText(ConnectActivity.this, "Please complete all fields", Toast.LENGTH_LONG).show();
+                }else {
+                    mSendDataButton.setText("Sending Data ...");
+                    mSendDataButton.setEnabled(false);
+                    sendData();
+                }
             }
         });
 
@@ -240,10 +261,50 @@ public class ConnectActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentDate = simpleDateFormat.format(new Date());
 
+        DataList heartRateItem = new DataList();
+        DataList stepCounterItem = new DataList();
+        DataList accelerometerItem = new DataList();
+        DataList idUserItem = new DataList();
+        DataList nameItem = new DataList();
+        DataList ageItem = new DataList();
+        DataList genderItem = new DataList();
+
+        heartRateItem.setName("heartRate");
+        stepCounterItem.setName("stepCounter");
+        accelerometerItem.setName("accelerometer");
+        idUserItem.setName("idUser");
+        nameItem.setName("name");
+        ageItem.setName("age");
+        genderItem.setName("gender");
+
+        heartRateItem.setValue(mHeartRateTextView.getText().toString());
+        stepCounterItem.setValue(mStepCounterTextView.getText().toString());
+        accelerometerItem.setValue(mAccelerometerTextView.getText().toString());
+        idUserItem.setValue(mIdUserEditText.getText().toString());
+        nameItem.setValue(mNameEditText.getText().toString());
+        ageItem.setValue(mAgeEditText.getText().toString());
+        genderItem.setValue(mGenderEditText.getText().toString());
+
+        List<DataList> listItems = Arrays.asList(heartRateItem, stepCounterItem, accelerometerItem, idUserItem, nameItem, ageItem, genderItem);
+        DataSensorForm formData = new DataSensorForm();
+        formData.setDatalist(listItems);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(formData);
+
+        byte[] data = null;
+
+        try {
+            data = json.getBytes("UTF-8");
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+        String base64 = Base64.encodeToString(data, Base64.DEFAULT);
+
         eventData.setEventType("TestSensor");
         eventData.setValue(0.2);
         eventData.setTimestamp(currentDate);
-        eventData.setMetadata("Un metadato");
+        eventData.setMetadata(base64);
         event.setEvent(eventData);
 
         DataService service = RetrofitClientInstance.getRetrofit().create(DataService.class);
@@ -267,5 +328,12 @@ public class ConnectActivity extends AppCompatActivity {
                 mSendDataButton.setEnabled(true);
             }
         });
+    }
+
+    private boolean isEmpty(EditText editText){
+        if(editText.getText().toString().trim().length() > 0)
+            return false;
+
+        return true;
     }
 }

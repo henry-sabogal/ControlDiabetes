@@ -177,6 +177,7 @@
                 </LinearLayout>
 
                 <EditText
+                    android:id="@+id/txtIdUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15dp" />
@@ -207,6 +208,7 @@
                 </LinearLayout>
 
                 <EditText
+                    android:id="@+id/txtName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15dp" />
@@ -237,6 +239,7 @@
                 </LinearLayout>
 
                 <EditText
+                    android:id="@+id/txtAge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15dp" />
@@ -267,6 +270,7 @@
                 </LinearLayout>
 
                 <EditText
+                    android:id="@+id/txtGender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15dp" />
